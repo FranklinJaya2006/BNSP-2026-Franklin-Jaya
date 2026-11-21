@@ -5,6 +5,29 @@
     <h2 class="text-2xl font-bold text-gray-800">Kelola Garasi</h2>
     <a href="{{ route('admin.garages.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">+ Tambah Garasi</a>
 </div>
+
+<form method="GET" class="bg-white rounded-lg shadow p-4 mb-4 flex flex-wrap gap-3 items-end">
+    <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">Tipe Garasi</label>
+        <select name="type" class="border border-gray-300 rounded px-2 py-1.5 text-sm">
+            <option value="">Semua</option>
+            @foreach(['sepeda' => 'Sepeda', 'mobil' => 'Mobil', 'ev' => 'EV (Listrik)'] as $value => $label)
+            <option value="{{ $value }}" {{ request('type') === $value ? 'selected' : '' }}>{{ $label }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div>
+        <label class="block text-xs font-medium text-gray-600 mb-1">Status</label>
+        <select name="is_active" class="border border-gray-300 rounded px-2 py-1.5 text-sm">
+            <option value="">Semua</option>
+            <option value="1" {{ request('is_active') === '1' ? 'selected' : '' }}>Aktif</option>
+            <option value="0" {{ request('is_active') === '0' ? 'selected' : '' }}>Nonaktif</option>
+        </select>
+    </div>
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded text-sm">Filter</button>
+    <a href="{{ route('admin.garages.index') }}" class="text-gray-500 hover:underline text-sm py-1.5">Reset</a>
+</form>
+
 <div class="bg-white rounded-lg shadow overflow-hidden">
 <table class="w-full text-sm">
     <thead class="bg-gray-50 text-gray-600 uppercase text-xs">

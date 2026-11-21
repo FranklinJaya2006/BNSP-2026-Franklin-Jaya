@@ -1,10 +1,10 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('title', 'Detail Penyewa')
 @section('content')
 <div class="max-w-lg">
 <div class="flex items-center justify-between mb-6">
     <h2 class="text-2xl font-bold text-gray-800">Detail Penyewa</h2>
-    <a href="{{ route('admin.users.index') }}" class="text-sm text-blue-600 hover:underline">← Kembali</a>
+    <a href="{{ route('admin.users.index') }}" class="text-sm text-blue-600 hover:underline">Kembali</a>
 </div>
 <div class="bg-white rounded-lg shadow divide-y">
     <div class="p-5">
@@ -30,16 +30,18 @@
     <div class="p-5 flex gap-3">
         <form method="POST" action="{{ route('admin.users.approve', $user->id) }}">
             @csrf
-            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm">✅ Setujui</button>
+            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm">Setujui</button>
         </form>
         <form method="POST" action="{{ route('admin.users.reject', $user->id) }}" class="flex gap-2 items-start">
             @csrf
             <input type="text" name="notes" placeholder="Alasan penolakan (opsional)"
                    class="border border-gray-300 rounded px-3 py-2 text-sm w-64">
-            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm">❌ Tolak</button>
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm">Tolak</button>
         </form>
     </div>
     @endif
 </div>
 </div>
 @endsection
+
+

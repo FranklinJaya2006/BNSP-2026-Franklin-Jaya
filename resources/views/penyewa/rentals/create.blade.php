@@ -65,7 +65,7 @@
                 <div class="font-semibold text-sm">{{ $g->code }}</div>
                 <div class="text-xs text-gray-500">Rp {{ number_format($g->daily_rate, 0, ',', '.') }}/hari</div>
                 @if($g->electricity_rate_kwh)
-                <div class="text-xs text-green-600">⚡ Rp {{ number_format($g->electricity_rate_kwh, 0, ',', '.') }}/kWh</div>
+                <div class="text-xs text-green-600">Rp {{ number_format($g->electricity_rate_kwh, 0, ',', '.') }}/kWh</div>
                 @endif
             </label>
             @endforeach
@@ -108,12 +108,12 @@
         @endif
 
         <div class="bg-yellow-50 border border-yellow-200 rounded p-3 text-sm text-yellow-800">
-            ⚠️ Pilih garasi di panel kanan sebelum melanjutkan.
+            Pilih garasi di panel kanan sebelum melanjutkan.
         </div>
 
         <button type="submit" id="previewBtn" disabled
                 class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed">
-            Lihat Ringkasan Harga →
+            Lihat Ringkasan Harga
         </button>
     </form>
 </div>

@@ -57,8 +57,8 @@
                 <p class="text-xs text-gray-400 mt-1">Format: JPG, PNG, atau PDF. Maks 2MB.</p>
             </div>
             <div class="flex gap-3">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded text-sm">✅ Konfirmasi & Simpan</button>
-                <a href="{{ route('penyewa.rentals.create') }}" class="text-gray-600 hover:underline text-sm py-2">← Kembali</a>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded text-sm">Konfirmasi & Simpan</button>
+                <a href="{{ route('penyewa.rentals.create') }}" class="text-gray-600 hover:underline text-sm py-2">Kembali</a>
             </div>
         </form>
     </div>

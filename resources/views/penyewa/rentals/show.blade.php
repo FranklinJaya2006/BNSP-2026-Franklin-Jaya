@@ -1,10 +1,10 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('title', 'Detail Sewa #' . $rental->id)
 @section('content')
 <div class="max-w-2xl">
 <div class="flex items-center justify-between mb-6">
     <h2 class="text-2xl font-bold text-gray-800">Detail Sewa #{{ $rental->id }}</h2>
-    <a href="{{ route('penyewa.rentals.index') }}" class="text-sm text-blue-600 hover:underline">← Kembali</a>
+    <a href="{{ route('penyewa.rentals.index') }}" class="text-sm text-blue-600 hover:underline">Kembali</a>
 </div>
 
 <div class="bg-white rounded-lg shadow divide-y">
@@ -40,7 +40,7 @@
             @foreach($rental->extensions as $ext)
             <div class="bg-blue-50 rounded p-3 text-sm">
                 <div class="flex justify-between">
-                    <span>{{ $ext->previous_end->format('d M Y') }} → {{ $ext->new_end->format('d M Y') }}</span>
+                    <span>{{ $ext->previous_end->format('d M Y') }} - {{ $ext->new_end->format('d M Y') }}</span>
                     <span class="font-semibold">Rp {{ number_format($ext->rent_fee, 0, ',', '.') }}</span>
                 </div>
                 <div class="text-xs text-gray-500 mt-1">Oleh: {{ $ext->createdBy?->name }}</div>
@@ -52,3 +52,4 @@
 </div>
 </div>
 @endsection
+

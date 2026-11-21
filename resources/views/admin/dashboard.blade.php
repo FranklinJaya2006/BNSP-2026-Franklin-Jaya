@@ -21,17 +21,17 @@
     </a>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <a href="{{ route('admin.users.index') }}" class="bg-white border rounded-lg p-4 hover:shadow-md flex items-center gap-3">
-        <span class="text-2xl">👥</span><div><div class="font-semibold text-sm">Kelola Penyewa</div><div class="text-xs text-gray-500">Verifikasi akun pendaftar</div></div>
+    <a href="{{ route('admin.users.index') }}" class="bg-white border border-gray-100 rounded-lg p-4 hover:bg-gray-50 flex items-center gap-3">
+        <div><div class="font-semibold text-sm text-gray-700">Kelola Penyewa</div><div class="text-xs text-gray-500">Verifikasi akun pendaftar</div></div>
     </a>
-    <a href="{{ route('admin.garages.index') }}" class="bg-white border rounded-lg p-4 hover:shadow-md flex items-center gap-3">
-        <span class="text-2xl">🏠</span><div><div class="font-semibold text-sm">Kelola Garasi</div><div class="text-xs text-gray-500">Tambah & atur unit garasi</div></div>
+    <a href="{{ route('admin.garages.index') }}" class="bg-white border border-gray-100 rounded-lg p-4 hover:bg-gray-50 flex items-center gap-3">
+        <div><div class="font-semibold text-sm text-gray-700">Kelola Garasi</div><div class="text-xs text-gray-500">Tambah & atur unit garasi</div></div>
     </a>
-    <a href="{{ route('admin.rentals.index') }}" class="bg-white border rounded-lg p-4 hover:shadow-md flex items-center gap-3">
-        <span class="text-2xl">📋</span><div><div class="font-semibold text-sm">Semua Transaksi</div><div class="text-xs text-gray-500">Kelola sewa & perpanjangan</div></div>
+    <a href="{{ route('admin.rentals.index') }}" class="bg-white border border-gray-100 rounded-lg p-4 hover:bg-gray-50 flex items-center gap-3">
+        <div><div class="font-semibold text-sm text-gray-700">Semua Transaksi</div><div class="text-xs text-gray-500">Kelola sewa & perpanjangan</div></div>
     </a>
-    <a href="{{ route('admin.reports.index') }}" class="bg-white border rounded-lg p-4 hover:shadow-md flex items-center gap-3">
-        <span class="text-2xl">📊</span><div><div class="font-semibold text-sm">Laporan</div><div class="text-xs text-gray-500">Statistik & filter transaksi</div></div>
+    <a href="{{ route('admin.reports.index') }}" class="bg-white border border-gray-100 rounded-lg p-4 hover:bg-gray-50 flex items-center gap-3">
+        <div><div class="font-semibold text-sm text-gray-700">Laporan</div><div class="text-xs text-gray-500">Statistik & filter transaksi</div></div>
     </a>
 </div>
 @endsection

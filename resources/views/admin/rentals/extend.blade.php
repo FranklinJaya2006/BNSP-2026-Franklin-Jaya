@@ -25,7 +25,7 @@
                 <p class="text-xs text-gray-400 mt-1">Format: JPG, PNG, atau PDF. Maks 2MB.</p>
             </div>
             <div class="flex gap-3">
-                <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded text-sm">✅ Simpan Perpanjangan</button>
+                <button type="submit" class="bg-gray-900 hover:bg-gray-700 text-white px-6 py-2 rounded text-sm">Simpan Perpanjangan</button>
                 <a href="{{ route('admin.rentals.show', $rental->id) }}" class="text-gray-600 hover:underline text-sm py-2">Batal</a>
             </div>
         </form>
