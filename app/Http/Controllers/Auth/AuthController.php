@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+/** Urus akun, token login, dan profil lewat API. */
 class AuthController extends Controller
 {
     public function __construct(private TenantLoginService $loginService) {}

@@ -6,32 +6,20 @@ use App\Contracts\BillingCalculator;
 use Carbon\Carbon;
 use InvalidArgumentException;
 
-/**
- * BillingService
- *
- * Semua logika kalkulasi periode, harga, dan EV charging sesuai PRD §5.
- * Fungsi-fungsi ini murni (pure) — tidak ada akses DB — agar mudah di-unit test.
- */
+/** Hitung durasi, biaya sewa, dan biaya isi baterai. */
 class BillingService implements BillingCalculator
 {
     // ---------------------------------------------------------------------------
     // §5.1  Periode sewa
     // ---------------------------------------------------------------------------
 
-    /**
-     * Hitung tanggal akhir sewa harian.
-     * end_date = start_date + (days - 1)  → inklusif kedua ujung.
-     */
+    /** Hitung hari pertama sebagai hari sewa. */
     public function dailyEndDate(Carbon $startDate, int $days): Carbon
     {
         return $startDate->copy()->addDays($days - 1);
     }
 
-    /**
-     * Hitung tanggal akhir sewa bulanan.
-     * Gunakan add_calendar_month dengan clamp akhir bulan (PRD §5.3).
-     * end_date = addCalendarMonth(start, 1) - 1 hari
-     */
+    /** Akhiri sewa sehari sebelum batas bulan berikutnya. */
     public function monthlyEndDate(Carbon $startDate): Carbon
     {
         return $this->addCalendarMonth($startDate, 1)->subDay();
@@ -47,10 +35,7 @@ class BillingService implements BillingCalculator
         return $this->addCalendarMonth($startAnchor, $extensionNumber + 1)->subDay();
     }
 
-    /**
-     * Tambah n bulan kalender dengan clamp akhir bulan.
-     * Contoh: 31 Jan + 1 bln = 28/29 Feb (bukan overflow ke Mar).
-     */
+    /** Pakai hari terakhir jika tanggal itu tidak ada di bulan tujuan. */
     public function addCalendarMonth(Carbon $date, int $months): Carbon
     {
         $result = $date->copy()->addMonthsNoOverflow($months);
@@ -58,19 +43,10 @@ class BillingService implements BillingCalculator
         return $result;
     }
 
-    /**
-     * Jumlah hari maksimum untuk sewa harian.
-     *
-     * Batas mengikuti durasi satu bulan kalender dari tanggal mulai, lalu
-     * dikurangi satu hari agar sewa harian tidak menyamai/melampaui bulanan.
-     */
+    /** Batasi sewa harian sampai 30 hari. */
     public function maxDailyDays(?Carbon $startDate = null): int
     {
-        $startDate = ($startDate ?? Carbon::today())->copy()->startOfDay();
-        $nextBoundary = $this->addCalendarMonth($startDate, 1);
-        $monthlyDays = (int) $startDate->diffInDays($nextBoundary);
-
-        return max(1, $monthlyDays - 1);
+        return 30;
     }
 
     public function assertDailyDuration(Carbon $startDate, int $days): void

@@ -10,6 +10,7 @@ use App\Services\VehicleService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
+/** Atur kendaraan milik penyewa yang login. */
 class VehicleController extends Controller
 {
     public function __construct(private VehicleService $vehicles) {}

@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class TenantLoginService
 {
-    /**
-     * Validasi kredensial tanpa langsung membuat sesi.
-     * Status akun dicek setelah password terbukti benar, sehingga pesan
-     * "password salah" tidak dipakai untuk akun yang masih pending/rejected.
-     */
+    /** Cek kata sandi dulu, baru cek status verifikasi. */
     public function validate(string $email, string $password): LoginAttemptResult
     {
         $user = User::query()->where('email', $email)->first();

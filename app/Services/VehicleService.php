@@ -6,6 +6,7 @@ use App\Enums\VehicleType;
 use App\Models\User;
 use App\Models\Vehicle;
 
+/** Simpan data kendaraan sesuai tipe. */
 class VehicleService
 {
     /**

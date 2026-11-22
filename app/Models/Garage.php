@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\GarageType;
+use App\Enums\RentalStatus;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -40,6 +42,16 @@ class Garage extends Model
     public function scopeOfType(Builder $query, GarageType $type): Builder
     {
         return $query->where('type', $type->value);
+    }
+
+    public function isOccupiedToday(): bool
+    {
+        $today = Carbon::today();
+
+        return $this->rentals()
+            ->whereIn('status', [RentalStatus::Active->value, RentalStatus::Extended->value])
+            ->overlapping($today, $today)
+            ->exists();
     }
 
     /**

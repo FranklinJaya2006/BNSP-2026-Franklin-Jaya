@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+/** Tampilkan penyewa dan proses verifikasi lewat panel admin. */
 class UserController extends Controller
 {
     public function __construct(private UserVerificationService $verifications) {}

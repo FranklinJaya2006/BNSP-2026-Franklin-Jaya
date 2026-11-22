@@ -42,6 +42,12 @@ class Vehicle extends Model
         return $this->typeEnum()->garageType();
     }
 
+    /** @return list<GarageType> */
+    public function compatibleGarageTypes(): array
+    {
+        return $this->isEV() ? [GarageType::Mobil, GarageType::Ev] : [$this->garageType()];
+    }
+
     /** Tipe garasi yang kompatibel dengan kendaraan ini */
     public function compatibleGarageType(): string
     {

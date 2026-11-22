@@ -7,6 +7,7 @@ use App\Models\Rental;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+/** Tampilkan laporan sewa dan ringkasan pendapatan. */
 class ReportController extends Controller
 {
     public function index(Request $request): View

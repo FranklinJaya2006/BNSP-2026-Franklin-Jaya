@@ -25,6 +25,9 @@
         <h3 class="font-semibold text-sm text-gray-700 mb-2">Rincian Biaya</h3>
         <dl class="text-sm space-y-1">
             <div class="flex justify-between"><span class="text-gray-500">Biaya Sewa</span><span>Rp {{ number_format($rental->rent_fee, 0, ',', '.') }}</span></div>
+            @if($rental->rental_type === 'bulanan')
+            <div class="flex justify-between text-xs text-gray-500"><span>Harga harian × 25</span><span>Rp {{ number_format($rental->daily_rate_snapshot, 0, ',', '.') }} × 25</span></div>
+            @endif
             @if($rental->electricity_fee > 0)
             <div class="flex justify-between"><span class="text-gray-500">Biaya Listrik</span><span>Rp {{ number_format($rental->electricity_fee, 0, ',', '.') }}</span></div>
             @endif

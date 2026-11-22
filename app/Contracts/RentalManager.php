@@ -10,6 +10,7 @@ use App\Models\Rental;
 use App\Models\RentalExtension;
 use App\Models\User;
 use App\Models\Vehicle;
+use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 
 interface RentalManager
@@ -24,11 +25,13 @@ interface RentalManager
         UploadedFile $paymentProof,
     ): Rental;
 
-    public function quoteExtension(Rental $rental): ExtensionQuote;
+    public function quoteExtension(Rental $rental, Carbon $newEnd): ExtensionQuote;
 
     public function extend(
         Rental $rental,
         User $reviewer,
         UploadedFile $paymentProof,
+        Carbon $newEnd,
+        Carbon $expectedEnd,
     ): RentalExtension;
 }

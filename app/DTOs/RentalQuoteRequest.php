@@ -7,6 +7,8 @@ use Carbon\Carbon;
 
 final readonly class RentalQuoteRequest
 {
+    public const int MAX_ADVANCE_DAYS = 30;
+
     public function __construct(
         public RentalType $rentalType,
         public Carbon $startDate,

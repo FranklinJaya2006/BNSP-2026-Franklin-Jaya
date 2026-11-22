@@ -13,16 +13,19 @@
     </div>
     <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Tarif Harian (Rp)</label>
-        <input type="number" name="daily_rate" value="{{ old('daily_rate', $garage->daily_rate) }}" required min="0" step="1000"
+        <input type="number" name="daily_rate" value="{{ $ratesLocked ? $garage->daily_rate : old('daily_rate', $garage->daily_rate) }}" @readonly($ratesLocked) required min="0" step="1000"
                class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
     </div>
     @if($garage->type === 'ev')
     <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Tarif Listrik (Rp/kWh)</label>
         <input type="number" name="electricity_rate_kwh" min="0" step="100"
-               value="{{ old('electricity_rate_kwh', $garage->electricity_rate_kwh) }}"
+               value="{{ $ratesLocked ? $garage->electricity_rate_kwh : old('electricity_rate_kwh', $garage->electricity_rate_kwh) }}" @readonly($ratesLocked)
                class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
     </div>
+    @endif
+    @if($ratesLocked)
+        <p class="text-sm text-gray-600">Tarif tidak bisa diubah saat garasi sedang dipakai.</p>
     @endif
     <div class="flex items-center gap-2">
         <input type="checkbox" name="is_active" id="is_active" value="1" {{ $garage->is_active ? 'checked' : '' }}>

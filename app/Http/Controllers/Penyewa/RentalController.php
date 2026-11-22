@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Penyewa;
 use App\Contracts\BillingCalculator;
 use App\Contracts\RentalManager;
 use App\DTOs\RentalQuoteRequest;
+use App\Enums\RentalStatus;
 use App\Enums\RentalType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PreviewRentalRequest;
@@ -19,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use RuntimeException;
 
+/** Tampilkan harga dan simpan transaksi sewa penyewa. */
 class RentalController extends Controller
 {
     public function __construct(
@@ -47,31 +49,48 @@ class RentalController extends Controller
             : null;
 
         $garages = collect();
+        $vehicleAlreadyInGarage = false;
         $rentalType = RentalType::tryFrom((string) $request->input('rental_type'));
-        $startDate = Carbon::today();
+        $today = Carbon::today();
+        $lastStartDate = $today->copy()->addDays(RentalQuoteRequest::MAX_ADVANCE_DAYS);
+        $startDate = $today;
 
         if ($request->filled('start_date') && Carbon::hasFormat((string) $request->input('start_date'), 'Y-m-d')) {
             $startDate = Carbon::parse((string) $request->input('start_date'));
         }
 
-        if ($selectedVehicle && $request->filled('start_date') && $rentalType !== null) {
+        $startDateAllowed = ! $request->filled('start_date')
+            || ($startDate->toDateString() === $request->input('start_date') && $startDate->betweenIncluded($today, $lastStartDate));
+
+        if ($selectedVehicle && $request->filled('start_date') && $rentalType !== null && $startDateAllowed) {
             $days = $rentalType->isMonthly() ? 1 : (int) $request->input('days', 1);
             $endDate = $rentalType->isMonthly()
                 ? $this->billing->monthlyEndDate($startDate)
                 : $this->billing->dailyEndDate($startDate, $days);
 
-            $garages = $this->garages->availableFor($selectedVehicle, $startDate, $endDate);
+            $vehicleAlreadyInGarage = $selectedVehicle->rentals()
+                ->whereIn('status', [RentalStatus::Active->value, RentalStatus::Extended->value])
+                ->overlapping($startDate, $endDate)
+                ->exists();
+
+            if (! $vehicleAlreadyInGarage) {
+                $garages = $this->garages->availableFor($selectedVehicle, $startDate, $endDate);
+            }
         }
 
         return view('penyewa.rentals.create', [
             'vehicles' => $vehicles,
             'selectedVehicle' => $selectedVehicle,
             'garages' => $garages,
-            'maxDays' => $this->billing->maxDailyDays($startDate),
+            'vehicleAlreadyInGarage' => $vehicleAlreadyInGarage,
+            'maxDays' => $this->billing->maxDailyDays(),
+            'today' => $today->toDateString(),
+            'lastStartDate' => $lastStartDate->toDateString(),
+            'startDateAllowed' => $startDateAllowed,
         ]);
     }
 
-    /** Preview harga sebelum submit (AJAX / redirect) */
+    /** Tampilkan harga sebelum sewa disimpan. */
     public function preview(PreviewRentalRequest $request): View
     {
         $vehicle = Vehicle::ownedBy(auth()->id())->findOrFail($request->integer('vehicle_id'));
@@ -124,8 +143,6 @@ class RentalController extends Controller
         $rental = Rental::with(['garage', 'vehicle', 'extensions.createdBy', 'paymentProofs'])
             ->ownedBy(auth()->id())
             ->findOrFail($id);
-
-        $this->authorize('view', $rental);
 
         return view('penyewa.rentals.show', compact('rental'));
     }

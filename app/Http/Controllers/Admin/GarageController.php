@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+/** Atur daftar, jumlah, dan tarif garasi. */
 class GarageController extends Controller
 {
     public function __construct(private GarageService $garages) {}
@@ -39,17 +40,21 @@ class GarageController extends Controller
 
     public function store(StoreGarageRequest $request): RedirectResponse
     {
-        $this->garages->create($request->validated());
+        $quantity = $request->integer('quantity', 1);
+        $this->garages->createBatch($request->validated(), $quantity);
 
         return redirect()->route('admin.garages.index')
-            ->with('success', 'Garasi berhasil ditambahkan.');
+            ->with('success', "{$quantity} garasi berhasil ditambahkan.");
     }
 
     public function edit(int $id): View
     {
         $garage = Garage::findOrFail($id);
 
-        return view('admin.garages.edit', compact('garage'));
+        return view('admin.garages.edit', [
+            'garage' => $garage,
+            'ratesLocked' => $garage->isOccupiedToday(),
+        ]);
     }
 
     public function update(UpdateGarageRequest $request, int $id): RedirectResponse

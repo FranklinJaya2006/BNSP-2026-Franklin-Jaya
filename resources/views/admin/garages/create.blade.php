@@ -21,6 +21,11 @@
         <input type="number" name="daily_rate" value="{{ old('daily_rate') }}" required min="0" step="1000"
                class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
     </div>
+    <div>
+        <label for="quantity" class="block text-sm font-medium text-gray-700 mb-1">Jumlah Garasi</label>
+        <input type="number" id="quantity" name="quantity" value="{{ old('quantity', 1) }}" required min="1" max="999"
+               class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+    </div>
     <div id="evRateField" style="{{ old('type') === 'ev' ? '' : 'display:none' }}">
         <label class="block text-sm font-medium text-gray-700 mb-1">Tarif Listrik (Rp/kWh)</label>
         <input type="number" name="electricity_rate_kwh" value="{{ old('electricity_rate_kwh') }}" min="0" step="100"

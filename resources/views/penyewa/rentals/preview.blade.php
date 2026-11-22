@@ -30,6 +30,12 @@
                 <span class="text-gray-500">Biaya Sewa</span>
                 <span>Rp {{ number_format($result['rent_fee'], 0, ',', '.') }}</span>
             </div>
+            @if($rentalType === 'bulanan')
+            <div class="flex justify-between text-xs text-gray-500">
+                <span>Harga harian × 25</span>
+                <span>Rp {{ number_format($garage->daily_rate, 0, ',', '.') }} × 25</span>
+            </div>
+            @endif
             @if($result['electricity_fee'] > 0)
             <div class="flex justify-between">
                 <span class="text-gray-500">Pengisian Listrik ({{ $result['estimated_topup_kwh'] }} kWh)</span>

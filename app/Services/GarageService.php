@@ -8,8 +8,9 @@ use App\Models\Vehicle;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use RuntimeException;
+use Illuminate\Validation\ValidationException;
 
+/** Buat kode garasi dan cari garasi yang kosong. */
 class GarageService
 {
     /**
@@ -17,42 +18,53 @@ class GarageService
      */
     public function create(array $data): Garage
     {
+        return $this->createBatch($data, 1)->firstOrFail();
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return Collection<int, Garage>
+     */
+    public function createBatch(array $data, int $quantity): Collection
+    {
+        $manualCode = $data['code'] ?? null;
+        if ($quantity < 1 || $quantity > 999 || ($quantity > 1 && filled($manualCode))) {
+            throw ValidationException::withMessages(['quantity' => 'Masukkan jumlah 1–999. Kode manual hanya untuk satu garasi.']);
+        }
+
         $type = GarageType::from($data['type']);
 
-        return DB::transaction(function () use ($data, $type): Garage {
-            return Garage::create([
-                'code' => $this->resolveCode($data['code'] ?? null, $type),
+        return DB::transaction(function () use ($data, $type, $quantity, $manualCode): Collection {
+            $attributes = [
                 'type' => $type->value,
                 'daily_rate' => $data['daily_rate'],
                 'electricity_rate_kwh' => $type === GarageType::Ev
                     ? ($data['electricity_rate_kwh'] ?? null)
                     : null,
                 'is_active' => true,
-            ]);
-        });
-    }
+            ];
 
-    private function resolveCode(?string $code, GarageType $type): string
-    {
-        if ($code !== null && trim($code) !== '') {
-            return strtoupper(trim($code));
-        }
+            if (filled($manualCode)) {
+                return collect([Garage::create($attributes + ['code' => strtoupper(trim($manualCode))])]);
+            }
 
-        $prefix = $type->codePrefix();
-        $lastCode = Garage::query()
-            ->where('type', $type->value)
-            ->where('code', 'like', $prefix.'%')
-            ->orderByDesc('code')
-            ->lockForUpdate()
-            ->value('code');
+            $prefix = $type->codePrefix();
+            $lastCode = Garage::query()
+                ->where('type', $type->value)
+                ->where('code', 'like', $prefix.'%')
+                ->orderByDesc('code')
+                ->lockForUpdate()
+                ->value('code');
+            $lastNumber = (int) substr($lastCode ?? '', 1);
 
-        $nextNumber = $lastCode !== null ? ((int) substr($lastCode, 1)) + 1 : 1;
+            if ($lastNumber + $quantity > 999) {
+                $remaining = 999 - $lastNumber;
+                throw ValidationException::withMessages(['quantity' => "Sisa nomor untuk tipe ini {$remaining} garasi."]);
+            }
 
-        if ($nextNumber > 999) {
-            throw new RuntimeException('Kode garasi untuk tipe ini sudah mencapai batas 999.');
-        }
-
-        return $prefix.str_pad((string) $nextNumber, 3, '0', STR_PAD_LEFT);
+            return collect(range($lastNumber + 1, $lastNumber + $quantity))
+                ->map(fn (int $number): Garage => Garage::create($attributes + ['code' => sprintf('%s%03d', $prefix, $number)]));
+        }, 3);
     }
 
     /**
@@ -60,15 +72,26 @@ class GarageService
      */
     public function update(Garage $garage, array $data): Garage
     {
-        $garage->update([
-            'daily_rate' => $data['daily_rate'],
-            'electricity_rate_kwh' => $garage->typeEnum() === GarageType::Ev
-                ? ($data['electricity_rate_kwh'] ?? $garage->electricity_rate_kwh)
-                : null,
-            'is_active' => (bool) ($data['is_active'] ?? false),
-        ]);
+        return DB::transaction(function () use ($garage, $data): Garage {
+            $garage = Garage::query()->lockForUpdate()->findOrFail($garage->id);
+            $garage->fill([
+                'daily_rate' => $data['daily_rate'],
+                'electricity_rate_kwh' => $garage->typeEnum() === GarageType::Ev
+                    ? ($data['electricity_rate_kwh'] ?? $garage->electricity_rate_kwh)
+                    : null,
+                'is_active' => (bool) ($data['is_active'] ?? false),
+            ]);
 
-        return $garage->refresh();
+            if ($garage->isDirty(['daily_rate', 'electricity_rate_kwh']) && $garage->isOccupiedToday()) {
+                throw ValidationException::withMessages([
+                    'daily_rate' => 'Tarif tidak bisa diubah saat garasi sedang dipakai.',
+                ]);
+            }
+
+            $garage->save();
+
+            return $garage->refresh();
+        });
     }
 
     /**
@@ -77,7 +100,7 @@ class GarageService
     public function availableFor(Vehicle $vehicle, Carbon $startDate, Carbon $endDate): Collection
     {
         return Garage::query()
-            ->where('type', $vehicle->garageType()->value)
+            ->whereIn('type', array_column($vehicle->compatibleGarageTypes(), 'value'))
             ->where('is_active', true)
             ->get()
             ->filter(fn (Garage $garage): bool => $garage->isAvailableFor(

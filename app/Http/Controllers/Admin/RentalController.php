@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\BillingCalculator;
 use App\Contracts\RentalManager;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExtendRentalRequest;
 use App\Models\Rental;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use RuntimeException;
 
+/** Tampilkan transaksi dan urus perpanjangan sewa. */
 class RentalController extends Controller
 {
     public function __construct(private RentalManager $rentals) {}
@@ -49,13 +52,11 @@ class RentalController extends Controller
             'paymentProofs',
         ])->findOrFail($id);
 
-        $this->authorize('view', $rental);
-
         return view('admin.rentals.show', compact('rental'));
     }
 
     /** Form perpanjangan */
-    public function extendForm(int $id): View|RedirectResponse
+    public function extendForm(int $id, BillingCalculator $billing): View|RedirectResponse
     {
         $rental = Rental::with(['garage'])->findOrFail($id);
 
@@ -64,13 +65,14 @@ class RentalController extends Controller
                 ->with('error', 'Transaksi tidak aktif, tidak bisa diperpanjang.');
         }
 
-        $quote = $this->rentals->quoteExtension($rental);
+        $minimumEnd = $rental->end_date->copy()->addDay();
 
         return view('admin.rentals.extend', [
             'rental' => $rental,
-            'newEnd' => $quote->newEnd,
-            'addFee' => $quote->fee,
-            'extensionCount' => $quote->extensionNumber - 1,
+            'minimumEnd' => $minimumEnd->toDateString(),
+            'monthlyEnd' => $rental->rentalTypeEnum()->isMonthly()
+                ? $billing->monthlyEndDate($minimumEnd)->toDateString()
+                : null,
         ]);
     }
 
@@ -88,10 +90,12 @@ class RentalController extends Controller
                 $rental,
                 auth()->user(),
                 $request->file('payment_proof'),
+                Carbon::parse($request->validated('new_end')),
+                Carbon::parse($request->validated('previous_end')),
             );
         } catch (RuntimeException $exception) {
             return back()
-                ->withErrors(['payment_proof' => $exception->getMessage()])
+                ->withErrors(['new_end' => $exception->getMessage()])
                 ->withInput();
         }
 

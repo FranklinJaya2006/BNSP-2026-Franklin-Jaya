@@ -29,7 +29,8 @@ class StoreGarageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => ['nullable', 'string', 'max:10', 'unique:garages,code', 'regex:/^[SCE][0-9]{3}$/'],
+            'code' => ['nullable', Rule::prohibitedIf($this->integer('quantity', 1) > 1), 'string', 'max:10', 'unique:garages,code', 'regex:/^[SCE][0-9]{3}$/'],
+            'quantity' => ['sometimes', 'required', 'integer', 'between:1,999'],
             'type' => ['required', Rule::enum(GarageType::class)],
             'daily_rate' => ['required', 'numeric', 'min:0'],
             'electricity_rate_kwh' => [

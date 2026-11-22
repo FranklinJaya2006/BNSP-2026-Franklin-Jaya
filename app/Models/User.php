@@ -4,11 +4,9 @@ namespace App\Models;
 
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
-use App\Enums\VerificationAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -70,21 +68,9 @@ class User extends Authenticatable implements JWTSubject
         return UserStatus::tryFrom((string) $this->status) ?? UserStatus::Pending;
     }
 
-    public function latestVerification(): ?UserVerification
-    {
-        return $this->verifications()
-            ->orderByDesc('verified_at')
-            ->orderByDesc('id')
-            ->first();
-    }
-
     public function loginStatus(): UserStatus
     {
-        return match ($this->latestVerification()?->action) {
-            VerificationAction::Approved => UserStatus::Approved,
-            VerificationAction::Rejected => UserStatus::Rejected,
-            default => $this->statusEnum(),
-        };
+        return $this->statusEnum();
     }
 
     public function canLogin(): bool
@@ -124,10 +110,5 @@ class User extends Authenticatable implements JWTSubject
     public function approvedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'approved_by');
-    }
-
-    public function verifications(): HasMany
-    {
-        return $this->hasMany(UserVerification::class);
     }
 }

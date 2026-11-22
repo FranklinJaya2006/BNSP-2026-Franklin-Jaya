@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Contracts\BillingCalculator;
+use App\DTOs\RentalQuoteRequest;
 use App\Enums\RentalType;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
@@ -20,18 +21,14 @@ class PreviewRentalRequest extends FormRequest
      */
     public function rules(): array
     {
-        $startDate = Carbon::today();
-        if ($this->filled('start_date') && Carbon::hasFormat((string) $this->input('start_date'), 'Y-m-d')) {
-            $startDate = Carbon::parse((string) $this->input('start_date'));
-        }
-
-        $maxDays = app(BillingCalculator::class)->maxDailyDays($startDate);
+        $maxDays = app(BillingCalculator::class)->maxDailyDays();
+        $lastStartDate = Carbon::today()->addDays(RentalQuoteRequest::MAX_ADVANCE_DAYS)->toDateString();
 
         return [
             'vehicle_id' => ['required', 'integer', 'exists:vehicles,id'],
             'garage_id' => ['required', 'integer', 'exists:garages,id'],
             'rental_type' => ['required', Rule::enum(RentalType::class)],
-            'start_date' => ['required', 'date', 'after_or_equal:today'],
+            'start_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today', 'before_or_equal:'.$lastStartDate],
             'days' => [
                 'required_if:rental_type,harian',
                 'nullable',

@@ -7,7 +7,7 @@
     <title>@yield('title', 'Sistem Penyewaan Garasi')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-50 min-h-screen font-sans">
 
 {{-- Navbar --}}
 <nav class="bg-white border-b border-gray-200 shadow-sm">

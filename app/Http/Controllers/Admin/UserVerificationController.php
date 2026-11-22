@@ -11,6 +11,7 @@ use App\Services\UserVerificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/** Proses verifikasi penyewa lewat API. */
 class UserVerificationController extends Controller
 {
     public function __construct(private UserVerificationService $verifications) {}

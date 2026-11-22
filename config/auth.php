@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Admin;
 use App\Models\User;
 
 return [
@@ -14,10 +13,6 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'approved-tenants',
-        ],
-        'admin' => [
-            'driver' => 'session',
-            'provider' => 'admins',
         ],
         'api' => [
             'driver' => 'jwt',
@@ -33,10 +28,6 @@ return [
         'approved-tenants' => [
             'driver' => 'approved-tenants',
             'model' => User::class,
-        ],
-        'admins' => [
-            'driver' => 'eloquent',
-            'model' => Admin::class,
         ],
     ],
 

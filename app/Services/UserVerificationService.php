@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\UserStatus;
 use App\Models\User;
 
+/** Simpan keputusan admin di akun penyewa. */
 class UserVerificationService
 {
     public function approve(User $tenant, ?User $reviewer = null): User

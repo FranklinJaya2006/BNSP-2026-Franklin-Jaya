@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
+/** Urus daftar akun, login, dan logout web. */
 class WebAuthController extends Controller
 {
     public function __construct(private TenantLoginService $loginService) {}

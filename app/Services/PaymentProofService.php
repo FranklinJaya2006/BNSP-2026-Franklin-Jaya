@@ -7,6 +7,7 @@ use App\Models\Rental;
 use App\Models\RentalExtension;
 use Illuminate\Http\UploadedFile;
 
+/** Simpan file bukti bayar di penyimpanan privat. */
 class PaymentProofService
 {
     public function storeForRental(Rental $rental, UploadedFile $file): PaymentProof

@@ -6,7 +6,7 @@
     <title>@yield('title', 'Sistem Penyewaan Garasi')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+<body class="bg-gray-50 min-h-screen flex items-center justify-center font-sans">
 <div class="w-full max-w-md">
     <div class="text-center mb-8">
         <h1 class="text-3xl font-bold text-blue-700">Garasi App</h1>
