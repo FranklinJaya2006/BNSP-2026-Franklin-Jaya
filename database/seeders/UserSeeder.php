@@ -7,9 +7,13 @@ use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
+    public const string DEMO_ADMIN_EMAIL = 'admin@garasi.test';
+
+    public const string DEMO_TENANT_EMAIL = 'pikapika@garasi.test';
+
     public function run(): void
     {
-        $admin = $this->seedAccount('admin@garasi.test', [
+        $admin = $this->seedAccount(self::DEMO_ADMIN_EMAIL, [
             'nik' => '3201010101010001',
             'name' => 'Admin Garasi',
             'phone' => '081200000001',
@@ -17,7 +21,7 @@ class UserSeeder extends Seeder
             'status' => 'approved',
         ]);
 
-        $this->seedAccount('pikapika@garasi.test', [
+        $this->seedAccount(self::DEMO_TENANT_EMAIL, [
             'nik' => '3201020202020002',
             'name' => 'fijjyaaa',
             'phone' => '081300000002',
@@ -50,9 +54,6 @@ class UserSeeder extends Seeder
     /** @param array<string, mixed> $attributes */
     private function seedAccount(string $email, array $attributes): User
     {
-        $user = User::firstOrCreate(['email' => $email], $attributes + ['password' => 'password']);
-        $user->update(['name' => $attributes['name']]);
-
-        return $user;
+        return User::firstOrCreate(['email' => $email], $attributes + ['password' => 'password']);
     }
 }

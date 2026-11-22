@@ -1,0 +1,148 @@
+<mxfile host="app.diagrams.net" agent="UML Garasi">
+  <diagram id="garage-use-case-2026" name="Use Case - Penyewa dan Admin">
+    <mxGraphModel dx="1390" dy="933" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2160" pageHeight="1580" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="penyewa" parent="1" style="shape=umlActor;html=1;whiteSpace=wrap;strokeColor=#333333;strokeWidth=2;fillColor=#FFFFFF;fontColor=#222222;fontFamily=Arial;fontStyle=1;fontSize=20;verticalLabelPosition=bottom;verticalAlign=top;align=center;" value="Penyewa" vertex="1">
+          <mxGeometry height="162" width="126" x="78" y="436" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" parent="1" style="shape=umlActor;html=1;whiteSpace=wrap;strokeColor=#333333;strokeWidth=2;fillColor=#FFFFFF;fontColor=#222222;fontFamily=Arial;fontStyle=1;fontSize=20;verticalLabelPosition=bottom;verticalAlign=top;align=center;" value="Admin" vertex="1">
+          <mxGeometry height="162" width="126" x="78" y="1118" as="geometry" />
+        </mxCell>
+        <mxCell id="register" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Registrasi penyewa" vertex="1">
+          <mxGeometry height="86" width="360" x="395" y="247" as="geometry" />
+        </mxCell>
+        <mxCell id="sewa" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Ajukan sewa garasi" vertex="1">
+          <mxGeometry height="86" width="360" x="395" y="424" as="geometry" />
+        </mxCell>
+        <mxCell id="login" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Login berdasarkan role" vertex="1">
+          <mxGeometry height="86" width="360" x="395" y="765" as="geometry" />
+        </mxCell>
+        <mxCell id="verify" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Verifikasi(Approve, Reject) pendaftar&lt;br&gt;(KTP dicek manual)" vertex="1">
+          <mxGeometry height="86" width="360" x="395" y="962" as="geometry" />
+        </mxCell>
+        <mxCell id="garagecreate" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Buat garasi baru&lt;br/&gt;(tipe, jumlah, harga)" vertex="1">
+          <mxGeometry height="86" width="360" x="395" y="1085" as="geometry" />
+        </mxCell>
+        <mxCell id="extend" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Perpanjang masa sewa" vertex="1">
+          <mxGeometry height="86" width="360" x="395" y="1210" as="geometry" />
+        </mxCell>
+        <mxCell id="report" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Lihat laporan penyewaan" vertex="1">
+          <mxGeometry height="86" width="360" x="395" y="1355" as="geometry" />
+        </mxCell>
+        <mxCell id="vehicle" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Isi detail kendaraan&lt;br/&gt;(baterai EV jika ada)" vertex="1">
+          <mxGeometry height="86" width="400" x="1000" y="273" as="geometry" />
+        </mxCell>
+        <mxCell id="period" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Pilih harian / bulanan&lt;br/&gt;dan durasi sewa" vertex="1">
+          <mxGeometry height="86" width="400" x="1000" y="383" as="geometry" />
+        </mxCell>
+        <mxCell id="availability" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Pilih garasi yang tersedia dari admin" vertex="1">
+          <mxGeometry height="86" width="400" x="1000" y="493" as="geometry" />
+        </mxCell>
+        <mxCell id="total" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Hitung total biaya sewa" vertex="1">
+          <mxGeometry height="86" width="400" x="1000" y="603" as="geometry" />
+        </mxCell>
+        <mxCell id="proof" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Unggah bukti pelunasan" vertex="1">
+          <mxGeometry height="86" width="400" x="1000" y="815" as="geometry" />
+        </mxCell>
+        <mxCell id="generate" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Generate kode garasi, secara otomatis (By Urutan)" vertex="1">
+          <mxGeometry height="86" width="400" x="1000" y="1094" as="geometry" />
+        </mxCell>
+        <mxCell id="additional" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Hitung biaya tambahan, serta pertambahan hari" vertex="1">
+          <mxGeometry height="86" width="400" x="1000" y="1210" as="geometry" />
+        </mxCell>
+        <mxCell id="filter" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Filter laporan&lt;br/&gt;(periode, tipe, penyewa)" vertex="1">
+          <mxGeometry height="86" width="400" x="1000" y="1355" as="geometry" />
+        </mxCell>
+        <mxCell id="electric" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Hitung biaya pengisian listrik" vertex="1">
+          <mxGeometry height="86" width="420" x="1550" y="603" as="geometry" />
+        </mxCell>
+        <mxCell id="electricrate" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Input tarif listrik per kWh" vertex="1">
+          <mxGeometry height="86" width="420" x="1550" y="1100" as="geometry" />
+        </mxCell>
+        <mxCell id="a-pen-reg" edge="1" parent="1" source="penyewa" style="edgeStyle=none;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.8;startArrow=none;endArrow=none;exitX=1;exitY=0.18;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=1;" target="register" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a-pen-sewa" edge="1" parent="1" source="penyewa" style="edgeStyle=none;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.8;startArrow=none;endArrow=none;exitX=1;exitY=0.38;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=1;" target="sewa" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a-pen-login" edge="1" parent="1" source="penyewa" style="edgeStyle=none;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.8;startArrow=none;endArrow=none;exitX=1;exitY=0.82;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.45;entryDx=0;entryDy=0;entryPerimeter=1;" target="login" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a-adm-login" edge="1" parent="1" source="admin" style="edgeStyle=none;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.8;startArrow=none;endArrow=none;exitX=1;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.56;entryDx=0;entryDy=0;entryPerimeter=1;" target="login" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a-adm-verify" edge="1" parent="1" source="admin" style="edgeStyle=none;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.8;startArrow=none;endArrow=none;exitX=1;exitY=0.2;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=1;" target="verify" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a-adm-create" edge="1" parent="1" source="admin" style="edgeStyle=none;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.8;startArrow=none;endArrow=none;exitX=1;exitY=0.37;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=1;" target="garagecreate" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a-adm-extend" edge="1" parent="1" source="admin" style="edgeStyle=none;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.8;startArrow=none;endArrow=none;exitX=1;exitY=0.66;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=1;" target="extend" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a-adm-report" edge="1" parent="1" source="admin" style="edgeStyle=none;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.8;startArrow=none;endArrow=none;exitX=1;exitY=0.9;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=1;" target="report" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i-sewa-vehicle" edge="1" parent="1" source="sewa" style="edgeStyle=none;html=1;rounded=0;strokeColor=#333333;strokeWidth=1.55;dashed=1;dashPattern=6 5;startArrow=none;endArrow=open;endFill=0;endSize=10;exitX=1;exitY=0.22;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.55;entryDx=0;entryDy=0;entryPerimeter=1;fontFamily=Arial;fontSize=15;fontColor=#222222;labelBackgroundColor=#FFFFFF;align=center;verticalAlign=middle;" target="vehicle" value="«include»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i-sewa-period" edge="1" parent="1" source="sewa" style="edgeStyle=none;html=1;rounded=0;strokeColor=#333333;strokeWidth=1.55;dashed=1;dashPattern=6 5;startArrow=none;endArrow=open;endFill=0;endSize=10;exitX=1;exitY=0.4;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.55;entryDx=0;entryDy=0;entryPerimeter=1;fontFamily=Arial;fontSize=15;fontColor=#222222;labelBackgroundColor=#FFFFFF;align=center;verticalAlign=middle;" target="period" value="«include»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i-sewa-avail" edge="1" parent="1" source="sewa" style="edgeStyle=none;html=1;rounded=0;strokeColor=#333333;strokeWidth=1.55;dashed=1;dashPattern=6 5;startArrow=none;endArrow=open;endFill=0;endSize=10;exitX=1;exitY=0.59;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=1;fontFamily=Arial;fontSize=15;fontColor=#222222;labelBackgroundColor=#FFFFFF;align=center;verticalAlign=middle;" target="availability" value="«include»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i-sewa-total" edge="1" parent="1" source="sewa" style="edgeStyle=none;html=1;rounded=0;strokeColor=#333333;strokeWidth=1.55;dashed=1;dashPattern=6 5;startArrow=none;endArrow=open;endFill=0;endSize=10;exitX=1;exitY=0.78;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.48;entryDx=0;entryDy=0;entryPerimeter=1;fontFamily=Arial;fontSize=15;fontColor=#222222;labelBackgroundColor=#FFFFFF;align=center;verticalAlign=middle;" target="total" value="«include»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i-sewa-proof" edge="1" parent="1" source="sewa" style="edgeStyle=none;html=1;rounded=0;strokeColor=#333333;strokeWidth=1.55;dashed=1;dashPattern=6 5;startArrow=none;endArrow=open;endFill=0;endSize=10;exitX=1;exitY=0.88;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.56;entryDx=0;entryDy=0;entryPerimeter=1;fontFamily=Arial;fontSize=15;fontColor=#222222;labelBackgroundColor=#FFFFFF;align=center;verticalAlign=middle;" target="proof" value="«include»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="850" y="534" />
+              <mxPoint x="850" y="858" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-electric" edge="1" parent="1" source="electric" style="edgeStyle=none;html=1;rounded=0;strokeColor=#333333;strokeWidth=1.55;dashed=1;dashPattern=6 5;startArrow=none;endArrow=open;endFill=0;endSize=10;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=1;fontFamily=Arial;fontSize=15;fontColor=#222222;labelBackgroundColor=#FFFFFF;align=center;verticalAlign=middle;" target="total" value="«extend»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i-create-generate" edge="1" parent="1" source="garagecreate" style="edgeStyle=none;html=1;rounded=0;strokeColor=#333333;strokeWidth=1.55;dashed=1;dashPattern=6 5;startArrow=none;endArrow=open;endFill=0;endSize=10;exitX=1;exitY=0.36;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=1;fontFamily=Arial;fontSize=15;fontColor=#222222;labelBackgroundColor=#FFFFFF;align=center;verticalAlign=middle;" target="generate" value="«include»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-electric-rate" edge="1" parent="1" source="electricrate" style="edgeStyle=none;html=1;rounded=0;strokeColor=#333333;strokeWidth=1.55;dashed=1;dashPattern=6 5;startArrow=none;endArrow=open;endFill=0;endSize=10;exitX=0;exitY=0.6;exitDx=0;exitDy=0;exitPerimeter=1;entryX=1;entryY=0.78;entryDx=0;entryDy=0;entryPerimeter=1;fontFamily=Arial;fontSize=15;fontColor=#222222;labelBackgroundColor=#FFFFFF;align=center;verticalAlign=middle;" target="garagecreate" value="«extend»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1460" y="1190" />
+              <mxPoint x="880" y="1190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="i-extension-fee" edge="1" parent="1" source="extend" style="edgeStyle=none;html=1;rounded=0;strokeColor=#333333;strokeWidth=1.55;dashed=1;dashPattern=6 5;startArrow=none;endArrow=open;endFill=0;endSize=10;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=1;fontFamily=Arial;fontSize=15;fontColor=#222222;labelBackgroundColor=#FFFFFF;align=center;verticalAlign=middle;" target="additional" value="«include»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i-extension-proof" edge="1" parent="1" source="extend" style="edgeStyle=none;html=1;rounded=0;strokeColor=#333333;strokeWidth=1.55;dashed=1;dashPattern=6 5;startArrow=none;endArrow=open;endFill=0;endSize=10;exitX=1;exitY=0.15;exitDx=0;exitDy=0;exitPerimeter=1;entryX=0;entryY=0.86;entryDx=0;entryDy=0;entryPerimeter=1;fontFamily=Arial;fontSize=15;fontColor=#222222;labelBackgroundColor=#FFFFFF;align=center;verticalAlign=middle;" target="proof" value="«include»">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="880" y="1240" />
+              <mxPoint x="880" y="885" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-filter" edge="1" parent="1" source="filter" style="edgeStyle=none;html=1;rounded=0;strokeColor=#333333;strokeWidth=1.55;dashed=1;dashPattern=6 5;startArrow=none;endArrow=open;endFill=0;endSize=10;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=1;fontFamily=Arial;fontSize=15;fontColor=#222222;labelBackgroundColor=#FFFFFF;align=center;verticalAlign=middle;" target="report" value="«extend»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ReZBtZ8n2YrmfWutxyCS-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#303030;strokeWidth=1.7;fontColor=#111111;fontFamily=Arial;fontSize=20;align=center;verticalAlign=middle;spacing=12;" value="Melakukan registrasi untuk kendaraan yang dimiliki" vertex="1">
+          <mxGeometry height="86" width="360" x="400" y="603" as="geometry" />
+        </mxCell>
+        <mxCell id="ReZBtZ8n2YrmfWutxyCS-2" edge="1" parent="1" source="penyewa" style="edgeStyle=none;html=1;rounded=0;strokeColor=#555555;strokeWidth=1.8;startArrow=none;endArrow=none;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="ReZBtZ8n2YrmfWutxyCS-1" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="671" as="sourcePoint" />
+            <mxPoint x="671" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

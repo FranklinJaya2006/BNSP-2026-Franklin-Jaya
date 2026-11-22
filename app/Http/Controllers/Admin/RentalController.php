@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Contracts\BillingCalculator;
-use App\Contracts\RentalManager;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExtendRentalRequest;
 use App\Models\Rental;
+use App\Services\BillingService;
+use App\Services\RentalService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ use RuntimeException;
 /** Tampilkan transaksi dan urus perpanjangan sewa. */
 class RentalController extends Controller
 {
-    public function __construct(private RentalManager $rentals) {}
+    public function __construct(private RentalService $rentals) {}
 
     public function index(Request $request): View
     {
@@ -56,7 +56,7 @@ class RentalController extends Controller
     }
 
     /** Form perpanjangan */
-    public function extendForm(int $id, BillingCalculator $billing): View|RedirectResponse
+    public function extendForm(int $id, BillingService $billing): View|RedirectResponse
     {
         $rental = Rental::with(['garage'])->findOrFail($id);
 
