@@ -10,14 +10,25 @@
             <dt class="text-gray-500">Garasi</dt><dd>{{ $rental->garage->code }}</dd>
             <dt class="text-gray-500">Jenis</dt><dd>{{ ucfirst($rental->rental_type) }}</dd>
             <dt class="text-gray-500">Akhir Saat Ini</dt><dd class="font-semibold">{{ $rental->end_date->format('d M Y') }}</dd>
-            <dt class="text-gray-500">Perpanjangan ke-</dt><dd>{{ $extensionCount + 1 }}</dd>
-            <dt class="text-gray-500">Akhir Baru</dt><dd class="font-bold text-blue-700">{{ $newEnd->format('d M Y') }}</dd>
-            <dt class="text-gray-500">Biaya Tambahan</dt><dd class="font-bold text-blue-700">Rp {{ number_format($addFee, 0, ',', '.') }}</dd>
         </dl>
     </div>
     <div class="p-5">
         <form method="POST" action="{{ route('admin.rentals.extend', $rental->id) }}" enctype="multipart/form-data" class="space-y-4">
             @csrf
+            <input type="hidden" name="previous_end" value="{{ $rental->end_date->toDateString() }}">
+            <div>
+                <label for="new_end" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Selesai Baru</label>
+                <input id="new_end" type="date" name="new_end" min="{{ $minimumEnd }}"
+                       value="{{ old('new_end', $minimumEnd) }}" required
+                       data-previous-end="{{ $rental->end_date->toDateString() }}"
+                       data-daily-rate="{{ $rental->daily_rate_snapshot }}"
+                       data-monthly-end="{{ $monthlyEnd }}"
+                       class="w-full text-sm border border-gray-300 rounded px-3 py-2">
+                @error('new_end')
+                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                @enderror
+                <p class="text-sm mt-2">Biaya tambahan <output id="extension-fee" for="new_end" class="font-semibold"></output></p>
+            </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Upload Bukti Pembayaran Perpanjangan</label>
                 <input type="file" name="payment_proof" accept=".jpg,.jpeg,.png,.pdf" required
@@ -25,11 +36,25 @@
                 <p class="text-xs text-gray-400 mt-1">Format: JPG, PNG, atau PDF. Maks 2MB.</p>
             </div>
             <div class="flex gap-3">
-                <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded text-sm">✅ Simpan Perpanjangan</button>
+                <button type="submit" class="bg-gray-900 hover:bg-gray-700 text-white px-6 py-2 rounded text-sm">Simpan Perpanjangan</button>
                 <a href="{{ route('admin.rentals.show', $rental->id) }}" class="text-gray-600 hover:underline text-sm py-2">Batal</a>
             </div>
         </form>
     </div>
 </div>
 </div>
+<script>
+    const newEnd = document.getElementById('new_end');
+    const extensionFee = document.getElementById('extension-fee');
+    const rupiah = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' });
+
+    function updateExtensionFee() {
+        const days = (Date.parse(newEnd.value) - Date.parse(newEnd.dataset.previousEnd)) / 86400000;
+        const billedDays = newEnd.value === newEnd.dataset.monthlyEnd ? 25 : days;
+        extensionFee.textContent = days > 0 ? rupiah.format(billedDays * Number(newEnd.dataset.dailyRate)) : '—';
+    }
+
+    newEnd.addEventListener('input', updateExtensionFee);
+    updateExtensionFee();
+</script>
 @endsection

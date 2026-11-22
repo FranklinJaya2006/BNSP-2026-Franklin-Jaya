@@ -1,0 +1,212 @@
+<?php
+
+namespace App\Services;
+
+use App\Contracts\BillingCalculator;
+use App\Contracts\RentalManager;
+use App\DTOs\ExtensionQuote;
+use App\DTOs\RentalQuote;
+use App\DTOs\RentalQuoteRequest;
+use App\Enums\GarageType;
+use App\Enums\RentalStatus;
+use App\Models\Garage;
+use App\Models\Rental;
+use App\Models\RentalExtension;
+use App\Models\User;
+use App\Models\Vehicle;
+use Carbon\Carbon;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
+use RuntimeException;
+
+/** Proses sewa dan perpanjangan, termasuk cek jadwal. */
+class RentalService implements RentalManager
+{
+    public function __construct(
+        private BillingCalculator $billing,
+        private PaymentProofService $paymentProofs,
+    ) {}
+
+    public function quote(Vehicle $vehicle, Garage $garage, RentalQuoteRequest $request): RentalQuote
+    {
+        $this->assertCompatible($vehicle, $garage);
+
+        $capacityKwh = $request->batteryCapacityKwh > 0
+            ? $request->batteryCapacityKwh
+            : (float) ($vehicle->battery_capacity_kwh ?? 0);
+
+        $result = $this->billing->calculate(
+            rentalType: $request->rentalType->value,
+            startDate: $request->startDate,
+            days: $request->effectiveDays(),
+            dailyRate: (float) $garage->daily_rate,
+            isEV: $vehicle->isEV() && $garage->typeEnum() === GarageType::Ev,
+            capacityKwh: $capacityKwh,
+            remainingPct: $request->remainingPct,
+            electricityRateKwh: (float) ($garage->electricity_rate_kwh ?? 0),
+        );
+
+        return RentalQuote::fromBillingResult($result);
+    }
+
+    public function create(
+        User $tenant,
+        Vehicle $vehicle,
+        Garage $garage,
+        RentalQuoteRequest $request,
+        UploadedFile $paymentProof,
+    ): Rental {
+        if (! $tenant->canLogin()) {
+            throw new RuntimeException('Akun penyewa belum diverifikasi.');
+        }
+
+        $this->assertCompatible($vehicle, $garage);
+
+        return DB::transaction(function () use ($tenant, $vehicle, $garage, $request, $paymentProof) {
+            $garage = Garage::query()->active()->lockForUpdate()->findOrFail($garage->id);
+            $quote = $this->quote($vehicle, $garage, $request);
+
+            $this->assertGarageAvailable($garage, $request->startDate, $quote->endDate);
+            $this->assertVehicleFree($vehicle, $garage, $request->startDate, $quote->endDate);
+
+            $capacityKwh = $request->batteryCapacityKwh > 0
+                ? $request->batteryCapacityKwh
+                : (float) ($vehicle->battery_capacity_kwh ?? 0);
+            $chargesBattery = $vehicle->isEV() && $garage->typeEnum() === GarageType::Ev;
+
+            $rental = Rental::create([
+                'user_id' => $tenant->id,
+                'vehicle_id' => $vehicle->id,
+                'garage_id' => $garage->id,
+                'rental_type' => $request->rentalType->value,
+                'start_date' => $request->startDate->toDateString(),
+                'end_date' => $quote->endDate->toDateString(),
+                'daily_rate_snapshot' => $garage->daily_rate,
+                'rent_fee' => $quote->rentFee,
+                'electricity_fee' => $quote->electricityFee,
+                'total' => $quote->total,
+                'status' => RentalStatus::Active->value,
+                'battery_capacity_kwh' => $chargesBattery ? $capacityKwh : null,
+                'remaining_pct' => $chargesBattery ? $request->remainingPct : null,
+                'estimated_topup_kwh' => $quote->estimatedTopupKwh,
+                'unit_kwh_rate_snapshot' => $chargesBattery
+                    ? $garage->electricity_rate_kwh
+                    : null,
+                'start_date_anchor' => $request->startDate->toDateString(),
+            ]);
+
+            $this->paymentProofs->storeForRental($rental, $paymentProof);
+
+            return $rental;
+        });
+    }
+
+    /** Hitung biaya tambahan dari tanggal selesai baru dan tarif awal. */
+    public function quoteExtension(Rental $rental, Carbon $newEnd): ExtensionQuote
+    {
+        $extensionNumber = $rental->extensions()->count() + 1;
+        $previousEnd = $rental->end_date;
+        if ($newEnd->lte($previousEnd)) {
+            throw new RuntimeException('Tanggal selesai baru harus setelah tanggal selesai saat ini.');
+        }
+
+        $extensionStart = $previousEnd->copy()->addDay();
+        $dailyRate = (float) $rental->daily_rate_snapshot;
+        $fee = $rental->rentalTypeEnum()->isMonthly() && $newEnd->isSameDay($this->billing->monthlyEndDate($extensionStart))
+            ? $this->billing->calcMonthlyRentFee($dailyRate)
+            : $this->billing->calcDailyRentFee($this->billing->daysBetween($extensionStart, $newEnd), $dailyRate);
+
+        return new ExtensionQuote($extensionNumber, $previousEnd, $newEnd, $fee);
+    }
+
+    /** Cek ulang jadwal, lalu simpan perpanjangan dan bukti bayar. */
+    public function extend(
+        Rental $rental,
+        User $reviewer,
+        UploadedFile $paymentProof,
+        Carbon $newEnd,
+        Carbon $expectedEnd,
+    ): RentalExtension {
+        return DB::transaction(function () use ($rental, $reviewer, $paymentProof, $newEnd, $expectedEnd) {
+            $garage = Garage::query()->lockForUpdate()->findOrFail($rental->garage_id);
+            $rental = Rental::query()->lockForUpdate()->findOrFail($rental->id);
+            if (! $rental->isActive() || ! $rental->end_date->isSameDay($expectedEnd)) {
+                throw new RuntimeException('Data sewa sudah berubah. Buka lagi form perpanjangan.');
+            }
+
+            $quote = $this->quoteExtension($rental, $newEnd);
+            $extensionStart = $quote->previousEnd->copy()->addDay();
+
+            $this->assertGarageAvailable($garage, $extensionStart, $quote->newEnd, $rental->id);
+            $this->assertVehicleFree($rental->vehicle()->firstOrFail(), $garage, $extensionStart, $quote->newEnd);
+
+            $extension = RentalExtension::create([
+                'rental_id' => $rental->id,
+                'previous_end' => $quote->previousEnd->toDateString(),
+                'new_end' => $quote->newEnd->toDateString(),
+                'rent_fee' => $quote->fee,
+                'created_by' => $reviewer->id,
+            ]);
+
+            $rental->update([
+                'end_date' => $quote->newEnd->toDateString(),
+                'status' => RentalStatus::Extended->value,
+            ]);
+
+            $this->paymentProofs->storeForExtension($rental, $extension, $paymentProof);
+
+            return $extension;
+        });
+    }
+
+    private function assertCompatible(Vehicle $vehicle, Garage $garage): void
+    {
+        if (! in_array($garage->typeEnum(), $vehicle->compatibleGarageTypes(), true)) {
+            throw new RuntimeException('Garasi tidak kompatibel dengan kendaraan ini.');
+        }
+    }
+
+    private function assertGarageAvailable(
+        Garage $garage,
+        Carbon $startDate,
+        Carbon $endDate,
+        ?int $ignoreRentalId = null,
+    ): void {
+        $conflict = Rental::query()
+            ->where('garage_id', $garage->id)
+            ->whereIn('status', [
+                RentalStatus::Active->value,
+                RentalStatus::Extended->value,
+            ])
+            ->where('start_date', '<=', $endDate->toDateString())
+            ->where('end_date', '>=', $startDate->toDateString())
+            ->when(
+                $ignoreRentalId !== null,
+                fn ($query) => $query->where('id', '!=', $ignoreRentalId),
+            )
+            ->exists();
+
+        if ($conflict) {
+            throw new RuntimeException('Garasi sudah dipesan untuk rentang tanggal tersebut.');
+        }
+    }
+
+    /** Cek apakah kendaraan masih sewa di garasi lain pada tanggal itu. */
+    private function assertVehicleFree(Vehicle $vehicle, Garage $garage, Carbon $startDate, Carbon $endDate): void
+    {
+        $conflict = Rental::query()
+            ->where('vehicle_id', $vehicle->id)
+            ->where('garage_id', '!=', $garage->id)
+            ->whereIn('status', [
+                RentalStatus::Active->value,
+                RentalStatus::Extended->value,
+            ])
+            ->where('start_date', '<=', $endDate->toDateString())
+            ->where('end_date', '>=', $startDate->toDateString())
+            ->exists();
+
+        if ($conflict) {
+            throw new RuntimeException('Kendaraan sudah terdaftar di garasi lain yang masih aktif.');
+        }
+    }
+}

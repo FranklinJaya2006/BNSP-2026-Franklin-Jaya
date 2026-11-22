@@ -7,14 +7,14 @@
     <title>@yield('title', 'Sistem Penyewaan Garasi')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-50 min-h-screen font-sans">
 
 {{-- Navbar --}}
 <nav class="bg-white border-b border-gray-200 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <a href="{{ auth()->user()?->isAdmin() ? route('admin.dashboard') : route('penyewa.dashboard') }}"
-               class="text-lg font-semibold text-blue-700">🏠 Garasi App</a>
+               class="text-lg font-semibold text-blue-700">Garasi App</a>
             <div class="flex items-center gap-4">
                 @auth
                     <span class="text-sm text-gray-600">{{ auth()->user()->name }}

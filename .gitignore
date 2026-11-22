@@ -25,6 +25,8 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
-/app/*
-/database/seeders/UserSeeder.php
 /.bob/*
+/tests/*
+!/tests/Unit/
+/docs/*
+/docs/pengujian-sistem.md

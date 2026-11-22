@@ -1,0 +1,77 @@
+
+   PASS  Tests\Unit\BillingServiceTest
+  ✓ daily 7 days normal month                                                                                    0.08s  
+  ✓ daily spans month boundary
+  ✓ monthly start february normal year
+  ✓ monthly start february leap year
+  ✓ monthly start 31 jan no overflow
+  ✓ monthly start 31 jan leap year no overflow
+  ✓ extension anchor prevents drift
+  ✓ daily rent fee
+  ✓ monthly rent fee is 25x daily
+  ✓ ev topup kwh
+  ✓ ev electricity fee
+  ✓ full ev monthly calculation matches prd example
+  ✓ overlap detection
+  ✓ no overlap adjacent dates
+  ✓ end date is occupied
+
+   PASS  Tests\Unit\CoreBusinessUnitTest
+  ✓ ut 01 sewa bulanan mulai 1 februari 2027 berakhir 28 februari                                                0.02s  
+  ✓ ut 02 sewa harian 28 hari pada februari ditolak maksimal 27 hari
+  ✓ ut 03 sewa harian 30 hari pada bulan 31 hari diterima
+  ✓ ut 04 sewa bulanan lebih dari satu bulan ditolak
+  ✓ ut 05 harga bulanan adalah harga harian dikali 25
+  ✓ ut 06 perhitungan biaya pengisian mobil listrik
+  ✓ ut 07 sisa baterai melebihi kapasitas ditolak
+
+   PASS  Tests\Unit\ExampleTest
+  ✓ that true is true                                                                                            0.01s  
+
+   PASS  Tests\Feature\CoreBusinessFeatureTest
+  ✓ ut 08 kendaraan tidak sesuai tipe garasi ditolak                                                             1.13s  
+  ✓ ft 01 registrasi penyewa dengan nik duplikat ditolak                                                         0.26s  
+  ✓ ft 02 penyewa belum diverifikasi tidak bisa menyewa                                                          0.14s  
+  ✓ ft 03 dua kendaraan tidak bisa menyewa garasi sama pada tanggal bertabrakan                                  0.10s  
+  ✓ ft 04 garasi tersedia setelah masa sewa berakhir bisa disewa kembali                                         0.10s  
+  ✓ ft 05 admin memperpanjang sewa dengan biaya tambahan benar                                                   0.15s  
+  ✓ ft 06 penyewa mengakses fitur khusus admin ditolak                                                           0.12s  
+  ✓ ft 07 membuat garasi dengan kode otomatis unik sesuai tipe                                                   0.14s  
+  ✓ ft 08 filter laporan periode tipe garasi dan penyewa                                                         0.16s  
+  ✓ ft 09 filter garasi berdasarkan tipe dan status                                                              0.08s  
+  ✓ ft 10 halaman admin dapat dibuka                                                                             0.20s  
+
+   PASS  Tests\Feature\ExampleTest
+  ✓ the application returns a successful response                                                                0.08s  
+
+   PASS  Tests\Feature\GarageCodeLimitTest
+  ✓ each type can use 999 distinct codes                                                                         0.10s  
+  ✓ invalid codes are rejected with data set "zero"                                                              0.05s  
+  ✓ invalid codes are rejected with data set "over limit"                                                        0.05s  
+  ✓ invalid codes are rejected with data set "wrong type"                                                        0.05s  
+  ✓ invalid codes are rejected with data set "old car prefix"                                                    0.05s  
+  ✓ invalid codes are rejected with data set "lowercase"                                                         0.06s  
+  ✓ existing code must match the updated type                                                                    0.05s  
+
+   PASS  Tests\Feature\RentalIntegrityTest
+  ✓ motorcycle requires a plate                                                                                  0.06s  
+  ✓ motorcycle cannot rent a car garage                                                                          0.07s  
+  ✓ rentals cannot share the final day                                                                           0.06s  
+  ✓ extending a rental cannot overlap the next rental                                                            0.06s  
+  ✓ proof can reference a rental or an extension but not both                                                    0.07s  
+  ✓ proof requires a reference                                                                                   0.05s  
+
+   PASS  Tests\Feature\SeparateAccountTest
+  ✓ each guard uses its own account table                                                                        0.09s  
+  ✓ a renter can log in only after approval                                                                      0.47s  
+  ✓ a renter cannot be recorded as the verifying admin                                                           0.05s  
+
+   PASS  Tests\Feature\WebLoginTest
+  ✓ pending user gets verification message instead of wrong password                                             0.07s  
+  ✓ rejected user gets rejection message                                                                         0.06s  
+  ✓ approved user can login                                                                                      0.07s  
+  ✓ wrong password still uses wrong password message                                                             0.07s  
+
+  Tests:    55 passed (127 assertions)
+  Duration: 6.09s
+

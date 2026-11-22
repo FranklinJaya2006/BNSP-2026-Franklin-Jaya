@@ -37,8 +37,8 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai</label>
-                    <input type="date" name="start_date" value="{{ request('start_date', date('Y-m-d')) }}"
-                           min="{{ date('Y-m-d') }}" required onchange="this.form.submit()"
+                    <input type="date" name="start_date" value="{{ request('start_date', $today) }}"
+                           min="{{ $today }}" max="{{ $lastStartDate }}" required onchange="this.form.submit()"
                            class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
                 </div>
             </div>
@@ -61,11 +61,11 @@
             @foreach($garages as $g)
             <label class="block border rounded p-3 cursor-pointer hover:bg-blue-50 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50">
                 <input type="radio" name="selected_garage" value="{{ $g->id }}" class="sr-only"
-                       onclick="selectGarage({{ $g->id }})">
+                       onclick="selectGarage({{ $g->id }}, @js($g->type === 'ev'))">
                 <div class="font-semibold text-sm">{{ $g->code }}</div>
                 <div class="text-xs text-gray-500">Rp {{ number_format($g->daily_rate, 0, ',', '.') }}/hari</div>
                 @if($g->electricity_rate_kwh)
-                <div class="text-xs text-green-600">⚡ Rp {{ number_format($g->electricity_rate_kwh, 0, ',', '.') }}/kWh</div>
+                <div class="text-xs text-green-600">Rp {{ number_format($g->electricity_rate_kwh, 0, ',', '.') }}/kWh</div>
                 @endif
             </label>
             @endforeach
@@ -74,7 +74,13 @@
     @elseif($selectedVehicle)
     <div class="lg:col-span-1 bg-white rounded-lg shadow p-6">
         <h3 class="font-semibold text-gray-700 mb-2">2. Garasi Tersedia</h3>
-        <p class="text-sm text-gray-500">Tidak ada garasi tersedia untuk rentang tanggal ini.</p>
+        @if(!$startDateAllowed)
+            <p class="text-sm text-gray-500">Pilih tanggal mulai dari hari ini sampai {{ $lastStartDate }}.</p>
+        @elseif($vehicleAlreadyInGarage)
+            <p class="text-sm text-gray-500">Kendaraan ini sudah ada dalam garasi.</p>
+        @else
+            <p class="text-sm text-gray-500">Tidak ada garasi tersedia untuk rentang tanggal ini.</p>
+        @endif
     </div>
     @endif
 </div>
@@ -88,11 +94,12 @@
         <input type="hidden" name="vehicle_id" value="{{ request('vehicle_id') }}">
         <input type="hidden" name="garage_id" id="garageIdInput" value="">
         <input type="hidden" name="rental_type" value="{{ request('rental_type','harian') }}">
-        <input type="hidden" name="start_date" value="{{ request('start_date', date('Y-m-d')) }}">
+        <input type="hidden" name="start_date" value="{{ request('start_date', $today) }}">
         <input type="hidden" name="days" value="{{ request('days', 1) }}">
 
         @if($selectedVehicle->isEV())
-        <div class="grid grid-cols-2 gap-4 p-4 bg-green-50 rounded border border-green-200">
+        <fieldset id="chargingFields" hidden disabled class="p-4 bg-green-50 rounded border border-green-200">
+            <div class="grid grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Kapasitas Baterai (kWh)</label>
                 <input type="number" name="battery_capacity_kwh" step="0.01" min="0.01" required
@@ -104,16 +111,17 @@
                 <input type="number" name="remaining_pct" step="0.1" min="0" max="100" required value="0"
                        class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
             </div>
-        </div>
+            </div>
+        </fieldset>
         @endif
 
         <div class="bg-yellow-50 border border-yellow-200 rounded p-3 text-sm text-yellow-800">
-            ⚠️ Pilih garasi di panel kanan sebelum melanjutkan.
+            Pilih garasi di panel kanan sebelum melanjutkan.
         </div>
 
         <button type="submit" id="previewBtn" disabled
                 class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed">
-            Lihat Ringkasan Harga →
+            Lihat Ringkasan Harga
         </button>
     </form>
 </div>
@@ -121,8 +129,13 @@
 @endif
 
 <script>
-function selectGarage(id) {
+function selectGarage(id, chargesBattery) {
     document.getElementById('garageIdInput').value = id;
+    const chargingFields = document.getElementById('chargingFields');
+    if (chargingFields) {
+        chargingFields.hidden = !chargesBattery;
+        chargingFields.disabled = !chargesBattery;
+    }
     document.getElementById('previewBtn').disabled = false;
     document.getElementById('previewBtn').closest('form').querySelector('.bg-yellow-50').style.display = 'none';
 }

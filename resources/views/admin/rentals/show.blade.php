@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('title', 'Detail Transaksi #' . $rental->id)
 @section('content')
 <div class="max-w-2xl">
@@ -7,9 +7,9 @@
     <div class="flex gap-2">
         @if($rental->isActive())
         <a href="{{ route('admin.rentals.extend.form', $rental->id) }}"
-           class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded text-sm">Perpanjang</a>
+           class="bg-gray-900 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm">Perpanjang</a>
         @endif
-        <a href="{{ route('admin.rentals.index') }}" class="text-sm text-blue-600 hover:underline py-2">← Kembali</a>
+        <a href="{{ route('admin.rentals.index') }}" class="text-sm text-blue-600 hover:underline py-2">Kembali</a>
     </div>
 </div>
 <div class="bg-white rounded-lg shadow divide-y">
@@ -44,7 +44,7 @@
             <div class="bg-blue-50 rounded p-3 text-sm flex justify-between">
                 <div>
                     <span class="font-medium">Perpanjangan #{{ $i+1 }}</span>
-                    <span class="text-gray-500 ml-2">{{ $ext->previous_end->format('d M') }} → {{ $ext->new_end->format('d M Y') }}</span>
+                    <span class="text-gray-500 ml-2">{{ $ext->previous_end->format('d M') }} - {{ $ext->new_end->format('d M Y') }}</span>
                     <div class="text-xs text-gray-500 mt-0.5">Oleh: {{ $ext->createdBy?->name }}</div>
                 </div>
                 <span class="font-semibold">Rp {{ number_format($ext->rent_fee, 0, ',', '.') }}</span>
@@ -56,3 +56,5 @@
 </div>
 </div>
 @endsection
+
+
