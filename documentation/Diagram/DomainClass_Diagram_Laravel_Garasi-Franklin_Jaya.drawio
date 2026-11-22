@@ -1,0 +1,220 @@
+<mxfile host="app.diagrams.net" agent="ChatGPT" pages="2">
+  <diagram name="01 - Class Diagram Model" id="model">
+    <mxGraphModel dx="1482" dy="996" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1580" pageHeight="1050" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="user" parent="1" style="swimlane;startSize=38;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=none;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" value="User" vertex="1">
+          <mxGeometry height="325" width="350" x="89" y="185" as="geometry" />
+        </mxCell>
+        <mxCell id="user_members_0" parent="user" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;div style=&quot;line-height:17px&quot;&gt;- id: bigint&lt;br/&gt;- nik: char(16)&lt;br/&gt;- name: string&lt;br/&gt;- email: string&lt;br/&gt;- phone: string&lt;br/&gt;- role: UserRole&lt;br/&gt;- status: UserStatus&lt;br/&gt;- approved_by: bigint?&lt;br/&gt;- approved_at: datetime?&lt;br/&gt;- rejection_notes: text?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="184" width="350" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="user_divider_0" parent="user" style="strokeColor=none;fillColor=#65758A;" value="" vertex="1">
+          <mxGeometry height="1" width="350" y="222" as="geometry" />
+        </mxCell>
+        <mxCell id="user_members_1" parent="user" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ canLogin(): bool&lt;br/&gt;+ loginStatus(): UserStatus&lt;br/&gt;+ isAdmin(): bool&lt;br/&gt;+ approvedBy(): BelongsTo&lt;/div&gt;" vertex="1">
+          <mxGeometry height="103" width="350" y="212" as="geometry" />
+        </mxCell>
+        <mxCell id="garage" parent="1" style="swimlane;startSize=38;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=none;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" value="Garage" vertex="1">
+          <mxGeometry height="260" width="390" x="575" y="185" as="geometry" />
+        </mxCell>
+        <mxCell id="garage_members_0" parent="garage" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;div style=&quot;line-height:17px&quot;&gt;- id: bigint&lt;br/&gt;- code: string (unique)&lt;br/&gt;- type: GarageType&lt;br/&gt;- daily_rate: decimal&lt;br/&gt;- electricity_rate_kwh: decimal?&lt;br/&gt;- is_active: bool&lt;/div&gt;" vertex="1">
+          <mxGeometry height="116" width="390" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="garage_divider_0" parent="garage" style="strokeColor=none;fillColor=#65758A;" value="" vertex="1">
+          <mxGeometry height="1" width="390" y="154" as="geometry" />
+        </mxCell>
+        <mxCell id="garage_members_1" parent="garage" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ rentals(): HasMany&lt;br/&gt;+ isOccupiedToday(): bool&lt;br/&gt;+ isAvailableFor(start, end): bool&lt;/div&gt;" vertex="1">
+          <mxGeometry height="106" width="390" y="154" as="geometry" />
+        </mxCell>
+        <mxCell id="extension" parent="1" style="swimlane;startSize=38;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=none;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" value="RentalExtension" vertex="1">
+          <mxGeometry height="250" width="370" x="1090" y="185" as="geometry" />
+        </mxCell>
+        <mxCell id="extension_members_0" parent="extension" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;div style=&quot;line-height:17px&quot;&gt;- id: bigint&lt;br/&gt;- rental_id: bigint&lt;br/&gt;- previous_end: date&lt;br/&gt;- new_end: date&lt;br/&gt;- rent_fee: decimal&lt;br/&gt;- created_by: bigint (users)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="116" width="370" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="extension_divider_0" parent="extension" style="strokeColor=none;fillColor=#65758A;" value="" vertex="1">
+          <mxGeometry height="1" width="370" y="154" as="geometry" />
+        </mxCell>
+        <mxCell id="extension_members_1" parent="extension" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ rental(): BelongsTo&lt;br/&gt;+ createdBy(): BelongsTo&lt;br/&gt;+ paymentProofs(): HasMany&lt;/div&gt;" vertex="1">
+          <mxGeometry height="96" width="370" y="154" as="geometry" />
+        </mxCell>
+        <mxCell id="vehicle" parent="1" style="swimlane;startSize=38;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=none;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" value="Vehicle" vertex="1">
+          <mxGeometry height="265" width="350" x="100" y="605" as="geometry" />
+        </mxCell>
+        <mxCell id="vehicle_members_0" parent="vehicle" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;div style=&quot;line-height:17px&quot;&gt;- id: bigint&lt;br/&gt;- user_id: bigint&lt;br/&gt;- type: VehicleType&lt;br/&gt;- plate: string?&lt;br/&gt;- make: string?&lt;br/&gt;- model: string?&lt;br/&gt;- battery_capacity_kwh: decimal?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="133" width="350" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="vehicle_divider_0" parent="vehicle" style="strokeColor=none;fillColor=#65758A;" value="" vertex="1">
+          <mxGeometry height="1" width="350" y="171" as="geometry" />
+        </mxCell>
+        <mxCell id="vehicle_members_1" parent="vehicle" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ user(): BelongsTo&lt;br/&gt;+ rentals(): HasMany&lt;br/&gt;+ compatibleGarageTypes(): GarageType[]&lt;br/&gt;+ isEV(): bool&lt;/div&gt;" vertex="1">
+          <mxGeometry height="94" width="350" y="171" as="geometry" />
+        </mxCell>
+        <mxCell id="rental" parent="1" style="swimlane;startSize=38;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=none;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" value="Rental" vertex="1">
+          <mxGeometry height="375" width="390" x="575" y="545" as="geometry" />
+        </mxCell>
+        <mxCell id="rental_members_0" parent="rental" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;div style=&quot;line-height:17px&quot;&gt;- id: bigint&lt;br/&gt;- user_id / vehicle_id / garage_id: bigint&lt;br/&gt;- rental_type: RentalType&lt;br/&gt;- start_date / end_date: date&lt;br/&gt;- daily_rate_snapshot: decimal&lt;br/&gt;- rent_fee / electricity_fee / total: decimal&lt;br/&gt;- battery_capacity_kwh: decimal?&lt;br/&gt;- remaining_pct: decimal?&lt;br/&gt;- start_date_anchor: date?&lt;br/&gt;- status: RentalStatus&lt;/div&gt;" vertex="1">
+          <mxGeometry height="184" width="390" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="rental_divider_0" parent="rental" style="strokeColor=none;fillColor=#65758A;" value="" vertex="1">
+          <mxGeometry height="1" width="390" y="222" as="geometry" />
+        </mxCell>
+        <mxCell id="rental_members_1" parent="rental" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ user() / vehicle() / garage(): BelongsTo&lt;br/&gt;+ extensions(): HasMany&lt;br/&gt;+ paymentProofs(): HasMany&lt;br/&gt;+ isActive(): bool&lt;/div&gt;" vertex="1">
+          <mxGeometry height="153" width="390" y="222" as="geometry" />
+        </mxCell>
+        <mxCell id="proof" parent="1" style="swimlane;startSize=38;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=none;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" value="PaymentProof" vertex="1">
+          <mxGeometry height="250" width="370" x="1090" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="proof_members_0" parent="proof" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;div style=&quot;line-height:17px&quot;&gt;- id: bigint&lt;br/&gt;- rental_id: bigint?&lt;br/&gt;- extension_id: bigint?&lt;br/&gt;- object_key: string&lt;br/&gt;- mime_type: string&lt;br/&gt;- file_size: bigint&lt;br/&gt;- uploaded_at: datetime&lt;/div&gt;" vertex="1">
+          <mxGeometry height="133" width="370" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="proof_divider_0" parent="proof" style="strokeColor=none;fillColor=#65758A;" value="" vertex="1">
+          <mxGeometry height="1" width="370" y="171" as="geometry" />
+        </mxCell>
+        <mxCell id="proof_members_1" parent="proof" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ rental(): BelongsTo&lt;br/&gt;+ extension(): BelongsTo&lt;/div&gt;" vertex="1">
+          <mxGeometry height="79" width="370" y="171" as="geometry" />
+        </mxCell>
+        <mxCell id="user_vehicle" edge="1" parent="1" source="user" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.42;exitY=1;entryX=0.42;entryY=0;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=12;endSize=12;" target="vehicle" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user_rental" edge="1" parent="1" source="user" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.69;entryX=0;entryY=0.18;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=12;endSize=12;" target="rental" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="505" y="409" />
+              <mxPoint x="505" y="613" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="vehicle_rental" edge="1" parent="1" source="vehicle" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.4;entryX=0;entryY=0.443;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=12;endSize=12;" target="rental" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="garage_rental" edge="1" parent="1" source="garage" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.51;exitY=1;entryX=0.51;entryY=0;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=12;endSize=12;" target="rental" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rental_extension" edge="1" parent="1" source="rental" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.18;entryX=0;entryY=0.76;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=12;endSize=12;" target="extension" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1020" y="613" />
+              <mxPoint x="1020" y="375" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rental_proof" edge="1" parent="1" source="rental" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.48;entryX=0;entryY=0.58;startArrow=ERzeroToOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=12;endSize=12;" target="proof" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="extension_proof" edge="1" parent="1" source="extension" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.69;exitY=1;entryX=0.69;entryY=0;startArrow=ERzeroToOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=12;endSize=12;" target="proof" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="user_extension" edge="1" parent="1" source="user" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.51;exitY=0;entryX=0.51;entryY=0;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=12;endSize=12;" target="extension" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="279" y="140" />
+              <mxPoint x="1279" y="140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="user_approved_by" edge="1" parent="1" source="user" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.23;entryX=0;entryY=0.72;startArrow=ERzeroToOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=12;endSize=12;" target="user" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="59" y="260" />
+              <mxPoint x="59" y="419" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="approval_label" parent="1" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=middle;fontSize=14;fontStyle=0;" value="approvedBy" vertex="1">
+          <mxGeometry height="20" width="87" x="10" y="329" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="02 - Service &amp; Interface" id="services">
+    <mxGraphModel dx="1930" dy="950" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1930" pageHeight="950" math="0" shadow="0" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Class Diagram Sistem Garasi" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=middle;fontSize=32;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="34" width="1790" height="49" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Service dan interface" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=middle;fontSize=17;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="82" width="1790" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="calc_if" value="&lt;span style=&quot;font-size:14px;font-weight:normal;&quot;&gt;«interface»&lt;/span&gt;&lt;br/&gt;BillingCalculator" style="swimlane;startSize=48;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=#E8EEF5;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="70" y="175" width="385" height="238" as="geometry" />
+        </mxCell>
+        <mxCell id="calc_if_members_0" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ dailyEndDate(start, days): Carbon&lt;br/&gt;+ monthlyEndDate(start): Carbon&lt;br/&gt;+ maxDailyDays(start): int&lt;br/&gt;+ calcMonthlyRentFee(rate): float&lt;br/&gt;+ calcTopupKwh(capacity, pct): float&lt;br/&gt;+ calcElectricityFee(kwh, rate): float&lt;br/&gt;+ calculate(...): array&lt;/div&gt;" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;" vertex="1" parent="calc_if">
+          <mxGeometry x="0" y="48" width="385" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="mgr_if" value="&lt;span style=&quot;font-size:14px;font-weight:normal;&quot;&gt;«interface»&lt;/span&gt;&lt;br/&gt;RentalManager" style="swimlane;startSize=48;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=#E8EEF5;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="540" y="175" width="425" height="214" as="geometry" />
+        </mxCell>
+        <mxCell id="mgr_if_members_0" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ quote(vehicle, garage, request): RentalQuote&lt;br/&gt;+ create(tenant, vehicle, garage, ...): Rental&lt;br/&gt;+ quoteExtension(rental, newEnd): ExtensionQuote&lt;br/&gt;+ extend(rental, reviewer, file,&lt;br/&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;newEnd, expectedEnd): RentalExtension&lt;/div&gt;" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;" vertex="1" parent="mgr_if">
+          <mxGeometry x="0" y="48" width="425" height="166" as="geometry" />
+        </mxCell>
+        <mxCell id="billing" value="BillingService" style="swimlane;startSize=38;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=#E8EEF5;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="70" y="540" width="385" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="billing_members_0" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ dailyEndDate(start, days): Carbon&lt;br/&gt;+ monthlyEndDate(start): Carbon&lt;br/&gt;+ extensionEndDate(anchor, n): Carbon&lt;br/&gt;+ assertDailyDuration(start, days): void&lt;br/&gt;+ calcMonthlyRentFee(rate): float&lt;br/&gt;+ calcTopupKwh(capacity, pct): float&lt;br/&gt;+ calcElectricityFee(kwh, rate): float&lt;br/&gt;+ hasOverlap(aStart, aEnd, bStart, bEnd): bool&lt;br/&gt;+ calculate(...): array&lt;/div&gt;" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;" vertex="1" parent="billing">
+          <mxGeometry x="0" y="38" width="385" height="222" as="geometry" />
+        </mxCell>
+        <mxCell id="rental_srv" value="RentalService" style="swimlane;startSize=38;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=#E8EEF5;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="540" y="510" width="425" height="276" as="geometry" />
+        </mxCell>
+        <mxCell id="rental_srv_members_0" value="&lt;div style=&quot;line-height:17px&quot;&gt;- billing: BillingCalculator&lt;br/&gt;- paymentProofs: PaymentProofService&lt;/div&gt;" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;" vertex="1" parent="rental_srv">
+          <mxGeometry x="0" y="38" width="425" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="rental_srv_divider_0" value="" style="strokeColor=none;fillColor=#65758A;" vertex="1" parent="rental_srv">
+          <mxGeometry x="0" y="86" width="425" height="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rental_srv_members_1" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ quote(...): RentalQuote&lt;br/&gt;+ create(...): Rental&lt;br/&gt;+ quoteExtension(rental, newEnd): ExtensionQuote&lt;br/&gt;+ extend(rental, reviewer, file,&lt;br/&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;newEnd, expectedEnd): RentalExtension&lt;br/&gt;- assertCompatible(vehicle, garage): void&lt;br/&gt;- assertGarageAvailable(...): void&lt;/div&gt;" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;" vertex="1" parent="rental_srv">
+          <mxGeometry x="0" y="86" width="425" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="proof_srv" value="PaymentProofService" style="swimlane;startSize=38;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=#E8EEF5;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="510" width="365" height="188" as="geometry" />
+        </mxCell>
+        <mxCell id="proof_srv_members_0" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ storeForRental(rental, file): PaymentProof&lt;br/&gt;+ storeForExtension(rental, ext, file): PaymentProof&lt;br/&gt;- store(file, rentalId, extId): PaymentProof&lt;/div&gt;" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;" vertex="1" parent="proof_srv">
+          <mxGeometry x="0" y="38" width="365" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="verify_srv" value="UserVerificationService" style="swimlane;startSize=38;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=#E8EEF5;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1515" y="510" width="350" height="145" as="geometry" />
+        </mxCell>
+        <mxCell id="verify_srv_members_0" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ approve(tenant, reviewer?): User&lt;br/&gt;+ reject(tenant, reviewer?, notes?): User&lt;/div&gt;" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;" vertex="1" parent="verify_srv">
+          <mxGeometry x="0" y="38" width="350" height="107" as="geometry" />
+        </mxCell>
+        <mxCell id="garage_srv" value="GarageService" style="swimlane;startSize=38;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=#E8EEF5;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="175" width="365" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="garage_srv_members_0" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ create(data): Garage&lt;br/&gt;+ createBatch(data, quantity): Collection&lt;br/&gt;+ update(garage, data): Garage&lt;br/&gt;+ availableFor(vehicle, start, end): Collection&lt;/div&gt;" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;" vertex="1" parent="garage_srv">
+          <mxGeometry x="0" y="38" width="365" height="142" as="geometry" />
+        </mxCell>
+        <mxCell id="vehicle_srv" value="VehicleService" style="swimlane;startSize=38;horizontal=1;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;collapsible=0;recursiveResize=0;fillColor=#E8EEF5;swimlaneFillColor=#FFFFFF;strokeColor=#65758A;strokeWidth=1.3;fontSize=20;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1515" y="175" width="350" height="165" as="geometry" />
+        </mxCell>
+        <mxCell id="vehicle_srv_members_0" value="&lt;div style=&quot;line-height:17px&quot;&gt;+ create(owner, data): Vehicle&lt;br/&gt;+ update(vehicle, data): Vehicle&lt;br/&gt;- attributes(type, data): array&lt;/div&gt;" style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=top;spacingLeft=12;spacingRight=8;spacingTop=6;fontSize=15;" vertex="1" parent="vehicle_srv">
+          <mxGeometry x="0" y="38" width="350" height="127" as="geometry" />
+        </mxCell>
+        <mxCell id="billing_implements" value="" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=0;entryX=0.5;entryY=1;endArrow=block;endFill=0;endSize=13;dashed=1;" edge="1" parent="1" source="billing" target="calc_if">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rental_implements" value="" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0.61;exitY=0;entryX=0.61;entryY=1;endArrow=block;endFill=0;endSize=13;dashed=1;" edge="1" parent="1" source="rental_srv" target="mgr_if">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rental_uses_billing" value="" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.22;entryX=1;entryY=0.68;endArrow=open;endFill=0;endSize=13;dashed=1;" edge="1" parent="1" source="rental_srv" target="calc_if">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="493" y="571" />
+              <mxPoint x="493" y="337" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rental_uses_proof" value="" style="noEdgeStyle=1;rounded=0;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;strokeColor=#65758A;strokeWidth=1.45;fontSize=15;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.34;entryX=0;entryY=0.5;endArrow=open;endFill=0;endSize=13;dashed=1;" edge="1" parent="1" source="rental_srv" target="proof_srv">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="Segitiga = implementasi interface. Panah terbuka = ketergantungan." style="text;fontFamily=Times New Roman;html=1;whiteSpace=wrap;fontColor=#263242;align=left;verticalAlign=middle;fontSize=16;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="860" width="1200" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Contracts\BillingCalculator;
 use App\DTOs\RentalQuoteRequest;
 use App\Enums\RentalType;
+use App\Services\BillingService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -21,7 +21,7 @@ class PreviewRentalRequest extends FormRequest
      */
     public function rules(): array
     {
-        $maxDays = app(BillingCalculator::class)->maxDailyDays();
+        $maxDays = app(BillingService::class)->maxDailyDays();
         $lastStartDate = Carbon::today()->addDays(RentalQuoteRequest::MAX_ADVANCE_DAYS)->toDateString();
 
         return [

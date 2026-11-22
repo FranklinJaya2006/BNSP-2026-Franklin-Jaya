@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Contracts\BillingCalculator;
-use App\Contracts\RentalManager;
 use App\DTOs\ExtensionQuote;
 use App\DTOs\RentalQuote;
 use App\DTOs\RentalQuoteRequest;
@@ -20,10 +18,10 @@ use Illuminate\Support\Facades\DB;
 use RuntimeException;
 
 /** Proses sewa dan perpanjangan, termasuk cek jadwal. */
-class RentalService implements RentalManager
+class RentalService
 {
     public function __construct(
-        private BillingCalculator $billing,
+        private BillingService $billing,
         private PaymentProofService $paymentProofs,
     ) {}
 

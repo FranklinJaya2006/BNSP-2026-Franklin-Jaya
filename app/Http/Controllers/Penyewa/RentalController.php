@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Penyewa;
 
-use App\Contracts\BillingCalculator;
-use App\Contracts\RentalManager;
 use App\DTOs\RentalQuoteRequest;
 use App\Enums\RentalStatus;
 use App\Enums\RentalType;
@@ -13,7 +11,9 @@ use App\Http\Requests\StoreRentalRequest;
 use App\Models\Garage;
 use App\Models\Rental;
 use App\Models\Vehicle;
+use App\Services\BillingService;
 use App\Services\GarageService;
+use App\Services\RentalService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,8 +24,8 @@ use RuntimeException;
 class RentalController extends Controller
 {
     public function __construct(
-        private RentalManager $rentals,
-        private BillingCalculator $billing,
+        private RentalService $rentals,
+        private BillingService $billing,
         private GarageService $garages,
     ) {}
 

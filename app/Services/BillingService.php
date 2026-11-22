@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
-use App\Contracts\BillingCalculator;
 use Carbon\Carbon;
 use InvalidArgumentException;
 
 /** Hitung durasi, biaya sewa, dan biaya isi baterai. */
-class BillingService implements BillingCalculator
+class BillingService
 {
     // ---------------------------------------------------------------------------
     // §5.1  Periode sewa
